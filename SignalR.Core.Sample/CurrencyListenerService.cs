@@ -12,7 +12,7 @@ namespace SignalR.Core.Sample
     {
         private readonly HubLifetimeManager<CurrencyHub> _hubManager;
         private readonly ILogger<CurrencyListenerService> _logger;
-        private readonly TimeSpan _delay = TimeSpan.FromSeconds(0.5);
+        private readonly TimeSpan _delay = TimeSpan.FromSeconds(1);
         private readonly Random _rnd = new Random();
 
         public CurrencyListenerService(
@@ -45,13 +45,23 @@ namespace SignalR.Core.Sample
         {
             var data = new Dictionary<string, double>
             {
-                {"EUR", 80 + _rnd.NextDouble()},
-                {"USD", 57 + _rnd.NextDouble()},
-                {"BYN", 28 + _rnd.NextDouble()}
+                {"EUR", Get(69) },
+                {"USD", Get(56) },
+                {"GBR", Get(79) },
+                {"INR", Get(1) },
+                {"CAD", Get(45) },
+                {"MAD", Get(6) },
+                {"AUD", Get(45) },
+                {"TRY", Get(15) },
+                {"AZN", Get(33) },
             };
 
             return Task.FromResult(data);
         }
+
+        internal double Get(double @default) => Round(@default + _rnd.NextDouble(), 2);
+
+        internal double Round(double val, int digit) => Math.Round(val, digit);
 
         private async Task Broadcast(Dictionary<string, double> data)
         {

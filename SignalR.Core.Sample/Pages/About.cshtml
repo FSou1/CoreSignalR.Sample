@@ -3,30 +3,3 @@
 @{
     ViewData["Title"] = "About";
 }
-<h2>@ViewData["Title"]</h2>
-<h3>@Model.Message</h3>
-
-@section Scripts {
-    <script src="~/lib/signalr-client-1.0.0-alpha2-final.min.js"></script>
-    <script>
-        var currenciesUpdated = function(data) {
-            console.log(data);
-        };
-
-        var connection = new signalR.HubConnection('/currency');
-
-        connection.on('currenciesUpdated', function(data) {
-            console.log(data);
-        });
-
-        connection.onclose(e => {
-            if (e) {
-                console.log('Connection closed with error: ' + e, 'red');
-            } else {
-                console.log('Disconnected', 'green');
-            }
-        });
-        
-        connection.start();
-    </script>
-}
